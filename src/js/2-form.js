@@ -1,16 +1,17 @@
 const form = document.querySelector('.feedback-form');
+let emailInput = document.getElementsByTagName("input")[0];
+let messageInput = document.getElementsByTagName("textarea")[0];
 
 if (localStorage.getItem("feedback-form-state") != null) {
     const feedback = localStorage.getItem("feedback-form-state")
     const parsedFeedback = JSON.parse(feedback);
-    document.getElementsByTagName("input")[0].value = parsedFeedback.email;
-    document.getElementsByTagName("textarea")[0].value = parsedFeedback.message;
+    emailInput.value = parsedFeedback.email;
+    messageInput.value = parsedFeedback.message;
 }
 
 form.addEventListener("input", (event) => {
-    event.preventDefault();
-    const email = document.getElementsByTagName("input")[0].value.trim();
-    const message = document.getElementsByTagName("textarea")[0].value.trim();
+    const email = emailInput.value;
+    const message = messageInput.value;
 
     const feedback = {
         email,
@@ -22,8 +23,9 @@ form.addEventListener("input", (event) => {
 });
 
 form.addEventListener("submit", (event) => {
-    const email = document.getElementsByTagName("input")[0].value.trim();
-    const message = document.getElementsByTagName("textarea")[0].value.trim();
+    event.preventDefault();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
 
     const feedback = {
         email,
@@ -31,7 +33,7 @@ form.addEventListener("submit", (event) => {
     }
     console.log(feedback)
 
-    localStorage.clear();
+    localStorage.removeItem("feedback-form-state");
     form.reset();
 
 });
